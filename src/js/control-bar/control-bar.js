@@ -22,7 +22,7 @@ vjs.ControlBar = vjs.Component.extend({
 
       if ( !('ontouchstart' in window) ) {
         this.player_.on('mouseover', fadeIn);
-        this.player_.on('mouseout', fadeOut);
+        this.player_.on('vjs-mouseout', fadeOut);
         this.player_.on('pause', vjs.bind(this, this.lockShowing));
         this.player_.on('play', vjs.bind(this, this.unlockShowing));
       }

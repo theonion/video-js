@@ -62,6 +62,7 @@ vjs.Player = vjs.Component.extend({
     this.on('durationchange', this.onDurationChange);
     this.on('error', this.onError);
     this.on('fullscreenchange', this.onFullscreenChange);
+    this.on('mouseout', this.mouseOutWrapper);
 
     // Make player easily findable by ID
     vjs.players[this.id_] = this;
@@ -398,6 +399,20 @@ vjs.Player.prototype.onFullscreenChange = function() {
   } else {
     this.removeClass('vjs-fullscreen');
   }
+};
+
+vjs.Player.prototype.mouseOutWrapper = function(e) {
+  var playerId = this.id_;
+  if (!e) e = window.event;
+  var fromElement = (window.event) ? e.srcElement : e.target;
+  var toElement = (e.relatedTarget) ? e.relatedTarget : e.toElement;
+  while (toElement != fromElement
+    && toElement.id != playerId
+    && toElement.nodeName != 'BODY'){
+      toElement = toElement.parentNode;
+  }
+  if (toElement == fromElement || toElement.id == playerId) return;
+  this.trigger('vjs-mouseout');
 };
 
 // /* Player API
