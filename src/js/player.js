@@ -403,16 +403,19 @@ vjs.Player.prototype.onFullscreenChange = function() {
 
 vjs.Player.prototype.mouseOutWrapper = function(e) {
   var playerId = this.id_;
-  if (!e) e = window.event;
+  if(!e){ e = window.event; }
+  if(e === undefined){ return; }
   var fromElement = (window.event) ? e.srcElement : e.target;
   var toElement = (e.relatedTarget) ? e.relatedTarget : e.toElement;
-  while (toElement !== null
+  while (toElement !== undefined
+    && toElement !== null
     && toElement != fromElement
     && toElement.id != playerId
     && toElement.nodeName != 'BODY'){
       toElement = toElement.parentNode;
   }
-  if (toElement == fromElement || (toElement !== null && toElement.id == playerId)) return;
+  if (toElement == fromElement
+    || (toElement !== undefined && toElement !== null && toElement.id == playerId)) return;
   this.trigger('vjs-mouseout');
 };
 
