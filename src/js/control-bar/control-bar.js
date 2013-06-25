@@ -81,7 +81,18 @@ vjs.ControlBar.prototype.fadeIn = function(){
   this.player_.trigger('controlsvisible');
 };
 
-vjs.ControlBar.prototype.fadeOut = function(){
+vjs.ControlBar.prototype.fadeOut = function(e){
+  var playerId = this.player_.id();
+  if (!e) var e = window.event;
+  var fromElement = (window.event) ? e.srcElement : e.target;
+  var toElement = (e.relatedTarget) ? e.relatedTarget : e.toElement;
+  while (toElement != fromElement
+    && toElement.id != playerId
+    && toElement.nodeName != 'BODY'){
+      toElement = toElement.parentNode;
+  }
+  if (toElement == fromElement || toElement.id == playerId) return;
+
   vjs.Component.prototype.fadeOut.call(this);
   this.player_.trigger('controlshidden');
 };
