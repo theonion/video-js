@@ -406,12 +406,13 @@ vjs.Player.prototype.mouseOutWrapper = function(e) {
   if (!e) e = window.event;
   var fromElement = (window.event) ? e.srcElement : e.target;
   var toElement = (e.relatedTarget) ? e.relatedTarget : e.toElement;
-  while (toElement != fromElement
+  while (toElement !== null
+    && toElement != fromElement
     && toElement.id != playerId
     && toElement.nodeName != 'BODY'){
       toElement = toElement.parentNode;
   }
-  if (toElement == fromElement || toElement.id == playerId) return;
+  if (toElement == fromElement || (toElement !== null && toElement.id == playerId)) return;
   this.trigger('vjs-mouseout');
 };
 
